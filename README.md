@@ -29,7 +29,7 @@ db.collection.update_many(filter, update)
 ```
 
 ## Testcases
-- Install pytest package and run `pytest -v` or `python -m pytest -v` under this directory.
+- Install pytest package and run `python -m pytest -v` under root directory.
 - Then pytest will automatically run test_main.py which includes various test cases ported from the original javascript test cases.
 
 ## Code style
