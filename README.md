@@ -1,3 +1,5 @@
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 # json-patch-to-pymongo
 
 ## Introduction
@@ -28,3 +30,7 @@ db.collection.update_many(filter, update)
 ## Testcases
 - Install pytest package and run `pytest -v` or `python -m pytest -v` under this directory.
 - Then pytest will automatically run test_main.py which includes various test cases ported from the original javascript test cases.
+
+
+## Code style
+- `black -l 100`
