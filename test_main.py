@@ -21,9 +21,7 @@ def test_jp2pym_escape_characters():
 
 
 def test_jp2pym_array_set():
-    patches = [
-        {"op": "add", "path": "/name/1", "value": "dave"},
-    ]
+    patches = [{"op": "add", "path": "/name/1", "value": "dave"}]
     expected = {"$push": {"name": {"$each": ["dave"], "$position": 1}}}
     assert expected == json_patch_to_pymongo(patches), "should work with array set"
 
@@ -85,9 +83,7 @@ def test_jp2pym_multiple_adds_last_with_nulls_with_position():
 
 
 def test_jp2pym_remove():
-    patches = [
-        {"op": "remove", "path": "/name", "value": "dave"},
-    ]
+    patches = [{"op": "remove", "path": "/name", "value": "dave"}]
     expected = {"$unset": {"name": 1}}
     assert expected == json_patch_to_pymongo(patches), "should work with remove"
 
@@ -99,9 +95,7 @@ def test_jp2pym_replace():
 
 
 def test_jp2pym_test():
-    patches = [
-        {"op": "test", "path": "/name", "value": "dave"},
-    ]
+    patches = [{"op": "test", "path": "/name", "value": "dave"}]
     expected = {}
     assert expected == json_patch_to_pymongo(patches), "should work with test"
 
@@ -134,9 +128,7 @@ def test_jp2pym_raise_on_add_with_mixed_position2():
 
 
 def test_jp2pym_add_treated_as_replace():
-    patches = [
-        {"op": "add", "path": "/name", "value": "dave"},
-    ]
+    patches = [{"op": "add", "path": "/name", "value": "dave"}]
     expected = {"$set": {"name": "dave"}}
     assert expected == json_patch_to_pymongo(
         patches
