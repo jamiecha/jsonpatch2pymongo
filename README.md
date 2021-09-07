@@ -1,6 +1,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-# json-patch-to-pymongo
+# jsonpatch2pymongo
 
 ## Introduction
 - This is a port of [jsonpatch to mongodb](https://www.npmjs.com/package/jsonpatch-to-mongodb) and [jsonpatch to mongodb - golang](https://github.com/ZaninAndrea/json-patch-to-mongo/blob/main/main.go) into python language.
