@@ -5,14 +5,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="jsonpatch2pymongo",
-    version="0.0.3",
+    version="0.1.0",
     author="JungYoon Cha",
     author_email="jamiecha@gmail.com",
     description="Convert JSON patch into pymongo",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/jamiecha/json-patch-to-pymongo",
-    project_urls={"Bug Tracker": "https://github.com/jamiecha/json-patch-to-pymongo/issues"},
+    url="https://github.com/jamiecha/jsonpatch2pymongo",
+    project_urls={"Bug Tracker": "https://github.com/jamiecha/jsonpatch2pymongo/issues"},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
