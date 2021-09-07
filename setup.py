@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="jsonpatch2pymongo",
-    version="0.1.0",
+    version="0.1.1",
     author="JungYoon Cha",
     author_email="jamiecha@gmail.com",
     description="Convert JSON patch into pymongo",
