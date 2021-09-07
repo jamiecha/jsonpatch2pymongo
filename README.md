@@ -27,10 +27,18 @@ And finally, you can pass `update` into pymongo's update or update_many function
 ```python
 db.collection.update_many(filter, update)
 ```
+
 ## Testcases
 - Install pytest package and run `pytest -v` or `python -m pytest -v` under this directory.
 - Then pytest will automatically run test_main.py which includes various test cases ported from the original javascript test cases.
 
-
 ## Code style
 - `black -l 100`
+
+## Setup pre-commit hook
+- Plugins specified in `.pre-commit-config.yml` will be used before you commit changes.
+- How to enable pre-commit hook
+```bash
+pip install pre-commit
+pre-commit install
+```

@@ -10,3 +10,11 @@ repos:
   hooks:
     - id: black
       args: [-l, "100"]
+- repo: local
+  hooks:
+    - id: pytest-check
+      name: pytest-check
+      entry: pytest -v
+      language: system
+      pass_filenames: false
+      always_run: true
