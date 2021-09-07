@@ -45,7 +45,7 @@ def json_patch_to_pymongo(patch_list: list) -> dict:
                         raise JsonPatch2PyMongoException(msg)
                     pos_diff = position - update["$push"][key]["$position"]
                     if pos_diff > len(update["$push"][key]["$each"]):
-                        msg = "Unsupported Operation! can use add op only with contiguous positions"
+                        msg = "Unsupported Operation! can use add op only with contiguous position"
                         raise JsonPatch2PyMongoException(msg)
                     update["$push"][key]["$each"].insert(pos_diff, value)
                     update["$push"][key]["$position"] = min(
