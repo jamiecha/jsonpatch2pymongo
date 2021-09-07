@@ -1,6 +1,6 @@
 import pytest
 
-from main import JsonPatch2PyMongoException, json_patch_to_pymongo, to_dot
+from jsonpatch2pymongo import JsonPatch2PyMongoException, jsonpatch2pymongo, to_dot
 
 
 def test_to_dot():
@@ -11,19 +11,19 @@ def test_to_dot():
 def test_jp2pym_single_add():
     patches = [{"op": "add", "path": "/name/-", "value": "dave"}]
     expected = {"$push": {"name": "dave"}}
-    assert expected == json_patch_to_pymongo(patches), "should work with single add"
+    assert expected == jsonpatch2pymongo(patches), "should work with single add"
 
 
 def test_jp2pym_escape_characters():
     patches = [{"op": "replace", "path": "/foo~1bar~0", "value": "dave"}]
     expected = {"$set": {"foo/bar~": "dave"}}
-    assert expected == json_patch_to_pymongo(patches), "should work with escaped characters"
+    assert expected == jsonpatch2pymongo(patches), "should work with escaped characters"
 
 
 def test_jp2pym_array_set():
     patches = [{"op": "add", "path": "/name/1", "value": "dave"}]
     expected = {"$push": {"name": {"$each": ["dave"], "$position": 1}}}
-    assert expected == json_patch_to_pymongo(patches), "should work with array set"
+    assert expected == jsonpatch2pymongo(patches), "should work with array set"
 
 
 def test_jp2pym_multiple_set():
@@ -33,7 +33,7 @@ def test_jp2pym_multiple_set():
         {"op": "add", "path": "/name/2", "value": "john"},
     ]
     expected = {"$push": {"name": {"$each": ["dave", "john", "bob"], "$position": 1}}}
-    assert expected == json_patch_to_pymongo(patches), "should work with multiple set"
+    assert expected == jsonpatch2pymongo(patches), "should work with multiple set"
 
 
 def test_jp2pym_multiple_adds_in_reverse_position():
@@ -43,7 +43,7 @@ def test_jp2pym_multiple_adds_in_reverse_position():
         {"op": "add", "path": "/name/1", "value": "john"},
     ]
     expected = {"$push": {"name": {"$each": ["john", "bob", "dave"], "$position": 1}}}
-    assert expected == json_patch_to_pymongo(
+    assert expected == jsonpatch2pymongo(
         patches
     ), "should work with multiple adds in reverse position"
 
@@ -55,7 +55,7 @@ def test_jp2pym_multiple_adds_last():
         {"op": "add", "path": "/name/-", "value": "john"},
     ]
     expected = {"$push": {"name": {"$each": ["dave", "bob", "john"]}}}
-    assert expected == json_patch_to_pymongo(patches), "should work with multiple adds"
+    assert expected == jsonpatch2pymongo(patches), "should work with multiple adds"
 
 
 def test_jp2pym_multiple_adds_last_with_nulls():
@@ -65,7 +65,7 @@ def test_jp2pym_multiple_adds_last_with_nulls():
         {"op": "add", "path": "/name/-", "value": None},
     ]
     expected = {"$push": {"name": {"$each": [None, "bob", None]}}}
-    assert expected == json_patch_to_pymongo(
+    assert expected == jsonpatch2pymongo(
         patches
     ), "should work with multiple adds with some null at the end"
 
@@ -77,7 +77,7 @@ def test_jp2pym_multiple_adds_last_with_nulls_with_position():
         {"op": "add", "path": "/name/1", "value": None},
     ]
     expected = {"$push": {"name": {"$each": [None, "bob", None], "$position": 1}}}
-    assert expected == json_patch_to_pymongo(
+    assert expected == jsonpatch2pymongo(
         patches
     ), "should work with multiple adds with some null and position"
 
@@ -85,19 +85,19 @@ def test_jp2pym_multiple_adds_last_with_nulls_with_position():
 def test_jp2pym_remove():
     patches = [{"op": "remove", "path": "/name", "value": "dave"}]
     expected = {"$unset": {"name": 1}}
-    assert expected == json_patch_to_pymongo(patches), "should work with remove"
+    assert expected == jsonpatch2pymongo(patches), "should work with remove"
 
 
 def test_jp2pym_replace():
     patches = [{"op": "replace", "path": "/name", "value": "dave"}]
     expected = {"$set": {"name": "dave"}}
-    assert expected == json_patch_to_pymongo(patches), "should work with replace"
+    assert expected == jsonpatch2pymongo(patches), "should work with replace"
 
 
 def test_jp2pym_test():
     patches = [{"op": "test", "path": "/name", "value": "dave"}]
     expected = {}
-    assert expected == json_patch_to_pymongo(patches), "should work with test"
+    assert expected == jsonpatch2pymongo(patches), "should work with test"
 
 
 def test_jp2pym_raise_on_add_with_non_contiguous_position():
@@ -106,7 +106,7 @@ def test_jp2pym_raise_on_add_with_non_contiguous_position():
         {"op": "add", "path": "/name/3", "value": "john"},
     ]
     with pytest.raises(JsonPatch2PyMongoException):
-        json_patch_to_pymongo(patches)
+        jsonpatch2pymongo(patches)
 
 
 def test_jp2pym_raise_on_add_with_mixed_position1():
@@ -115,7 +115,7 @@ def test_jp2pym_raise_on_add_with_mixed_position1():
         {"op": "add", "path": "/name/-", "value": "john"},
     ]
     with pytest.raises(JsonPatch2PyMongoException):
-        json_patch_to_pymongo(patches)
+        jsonpatch2pymongo(patches)
 
 
 def test_jp2pym_raise_on_add_with_mixed_position2():
@@ -124,13 +124,13 @@ def test_jp2pym_raise_on_add_with_mixed_position2():
         {"op": "add", "path": "/name/1", "value": "john"},
     ]
     with pytest.raises(JsonPatch2PyMongoException):
-        json_patch_to_pymongo(patches)
+        jsonpatch2pymongo(patches)
 
 
 def test_jp2pym_add_treated_as_replace():
     patches = [{"op": "add", "path": "/name", "value": "dave"}]
     expected = {"$set": {"name": "dave"}}
-    assert expected == json_patch_to_pymongo(
+    assert expected == jsonpatch2pymongo(
         patches
     ), "should be treated as replace if adding without position"
 
@@ -138,10 +138,10 @@ def test_jp2pym_add_treated_as_replace():
 def test_jp2pym_raise_on_move():
     patches = [{"op": "move", "path": "/name", "from": "/old_name"}]
     with pytest.raises(JsonPatch2PyMongoException):
-        json_patch_to_pymongo(patches)
+        jsonpatch2pymongo(patches)
 
 
 def test_jp2pym_raise_on_copy():
     patches = [{"op": "copy", "path": "/name", "from": "/old_name"}]
     with pytest.raises(JsonPatch2PyMongoException):
-        json_patch_to_pymongo(patches)
+        jsonpatch2pymongo(patches)

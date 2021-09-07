@@ -18,7 +18,7 @@ def to_dot(path: str) -> str:
     return path.replace("/", ".").replace("~1", "/").replace("~0", "~")
 
 
-def json_patch_to_pymongo(patch_list: list) -> dict:
+def jsonpatch2pymongo(patch_list: list) -> dict:
     update = {"$set": {}, "$unset": {}, "$push": {}}
     for p in patch_list:
         op, path, value = p["op"], p["path"], p.get("value", None)
