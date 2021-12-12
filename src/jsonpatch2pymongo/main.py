@@ -19,7 +19,7 @@ def to_dot(path: str) -> str:
 
 
 def jsonpatch2pymongo(patch_list: list) -> dict:
-    update = {"$set": {}, "$unset": {}, "$push": {}}
+    update = {"$set": {}, "$unset": {}, "$push": {}, "$rename": {}}
     for p in patch_list:
         op, path, value = p["op"], p["path"], p.get("value", None)
         dot_path = to_dot(path)
@@ -69,6 +69,15 @@ def jsonpatch2pymongo(patch_list: list) -> dict:
             update["$unset"][dot_path] = 1
         elif op == "replace":
             update["$set"][dot_path] = value
+        elif op == "move":
+            dot_path = to_dot(path)
+            _from = p.get("from", None)
+            if _from:
+                from_path = to_dot(_from)
+                update["$rename"][from_path] = dot_path
+            else:
+                raise JsonPatch2PyMongoException("Unsupported Operation! can't use move op without from")
+
         elif op == "test":
             pass  # the test op does not change the query
         else:

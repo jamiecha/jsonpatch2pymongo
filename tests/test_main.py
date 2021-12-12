@@ -136,10 +136,15 @@ def test_jp2pym_add_treated_as_replace():
 
 
 def test_jp2pym_raise_on_move():
-    patches = [{"op": "move", "path": "/name", "from": "/old_name"}]
+    patches = [{"op": "move", "path": "/name"}]
     with pytest.raises(JsonPatch2PyMongoException):
-        jsonpatch2pymongo(patches)
+        jsonpatch2pymongo(patches)    
 
+
+def test_jp2pym_move():
+    patches = [{"op": "move", "path": "/name", "from": "/old_name"}]
+    expected = {"$rename": {"old_name": "name"}}
+    assert expected == jsonpatch2pymongo(patches)
 
 def test_jp2pym_raise_on_copy():
     patches = [{"op": "copy", "path": "/name", "from": "/old_name"}]
