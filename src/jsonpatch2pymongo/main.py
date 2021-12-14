@@ -76,7 +76,9 @@ def jsonpatch2pymongo(patch_list: list) -> dict:
                 from_path = to_dot(_from)
                 update["$rename"][from_path] = dot_path
             else:
-                raise JsonPatch2PyMongoException("Unsupported Operation! can't use move op without from")
+                raise JsonPatch2PyMongoException(
+                    "Unsupported Operation! can't use move op without from"
+                )
 
         elif op == "test":
             pass  # the test op does not change the query
