@@ -24,11 +24,9 @@ jobs:
         pip install pytest
                 
     - name: Check code style
-      env:
       run: | 
         black -l 100
 
     - name: Run pytest
-      env:
       run: | 
         pytest -v
