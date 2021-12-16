@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"  # Only react on tagging version such as v1.1.1
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install python packages
+        run: |        
+          pip install build wheel
+
+      - name: Build project
+        run: python setup.py clean bdist_wheel
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Get wheel file name
+        run: echo "WHEEL_FILE_NAME=$(ls dist)" >> $GITHUB_ENV
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: dist/${{ env.WHEEL_FILE_NAME }}
+          asset_name: ${{ env.WHEEL_FILE_NAME }}
+          asset_content_type: application/zip
+      
+      - name: Publish distribution 📦 to PyPI
+          # if: startsWith(github.ref, 'refs/tags')
+          uses: pypa/gh-action-pypi-publish@master
+          with:
+            password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+            repository_url: https://test.pypi.org/legacy/
