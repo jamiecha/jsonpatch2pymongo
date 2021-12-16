@@ -5,9 +5,6 @@ referenced from:
 """
 
 
-version = "1.0"
-
-
 class JsonPatch2PyMongoException(Exception):
     pass
 
