@@ -49,10 +49,10 @@ jobs:
           asset_path: dist/${{ env.WHEEL_FILE_NAME }}
           asset_name: ${{ env.WHEEL_FILE_NAME }}
           asset_content_type: application/zip
-      
-      - name: Publish distribution 📦 to PyPI
-          # if: startsWith(github.ref, 'refs/tags')
-          uses: pypa/gh-action-pypi-publish@master
-          with:
-            password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-            repository_url: https://test.pypi.org/legacy/
+
+      - name: Publish distribution to PyPI
+        # if: startsWith(github.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
