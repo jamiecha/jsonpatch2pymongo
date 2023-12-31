@@ -1,6 +1,45 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jsonpatch2pymongo"
+dynamic = ["version"]
+description = "Convert JSON patch into pymongo"
+readme = "README.md"
+license = ""
+requires-python = ">=3.6"
+authors = [{ name = "JungYoon Cha", email = "jamiecha@gmail.com" }]
+classifiers = [
+    "Operating System :: OS Independent",
+    'Development Status :: 5 - Production/Stable',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Information Technology',
+    'Intended Audience :: System Administrators',
+    'License :: OSI Approved :: MIT License',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: Internet',
 ]
-build-backend = "setuptools.build_meta"
+
+[project.urls]
+"Bug Tracker" = "https://github.com/jamiecha/jsonpatch2pymongo/issues"
+Homepage = "https://github.com/jamiecha/jsonpatch2pymongo"
+
+[tool.hatch.version]
+path = "src/jsonpatch2pymongo/version.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["/src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jsonpatch2pymongo"]
