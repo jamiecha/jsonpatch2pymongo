@@ -1,6 +1,11 @@
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # jsonpatch2pymongo
+
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/jsonpatch2pymongo)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![CI](https://github.com/jamiecha/jsonpatch2pymongo/actions/workflows/check.yml/badge.svg)](https://github.com/jamiecha/jsonpatch2pymongo/actions/workflows/check.yml)
+[![Publish to PyPI](https://github.com/jamiecha/jsonpatch2pymongo/actions/workflows/release.yml/badge.svg)](https://github.com/jamiecha/jsonpatch2pymongo/actions/workflows/release.yml)
+
 
 ## Introduction
 - This is a port of [jsonpatch to mongodb](https://www.npmjs.com/package/jsonpatch-to-mongodb) and [jsonpatch to mongodb - golang](https://github.com/ZaninAndrea/json-patch-to-mongo/blob/main/main.go) into python language.
